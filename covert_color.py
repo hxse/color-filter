@@ -6,6 +6,7 @@ from levels_photoshop_style import level_filter
 from change_hsv import change_hsv
 from rgb2alpha import rgb2alpha, isWhite, notWhite
 import numpy as np
+import pathlib
 
 num = 4  # 色阶分离个数,色调分离个数
 numh = 2  # imshow每行并列显示个数
@@ -36,15 +37,56 @@ def get_stack(imgArr, numh):
     return np.vstack(hstackArr)
 
 
-img = get_stack(imgArr, numh)
-cv2.imwrite("out/test/test_out.jpg", img)
-
-img_isWhite_alpha = rgb2alpha(img, isWhite)
-img_notWhite_alpha = rgb2alpha(img, notWhite)
-cv2.imwrite("out/test/isWhite_alpha.png", img_isWhite_alpha, [int(cv2.IMWRITE_PNG_COMPRESSION), 0])
-cv2.imwrite("out/test/notWhite_alpha.png", img_notWhite_alpha, [int(cv2.IMWRITE_PNG_COMPRESSION), 0])
+def mkdir(path):
+    return pathlib.Path(path).mkdir(parents=True, exist_ok=True)
 
 
-# cv2.imshow("image", img)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
+def main():
+    path = "out/test/stack" + str(num)
+    mkdir(path)
+    img = get_stack(imgArr, numh)
+    cv2.imwrite(f"{path}/test_out.png", img, [int(cv2.IMWRITE_PNG_COMPRESSION), 0])
+
+    img_isWhite_alpha = rgb2alpha(img, isWhite)
+    img_notWhite_alpha = rgb2alpha(img, notWhite)
+    cv2.imwrite(
+        f"{path}/isWhite_alpha.png",
+        img_isWhite_alpha,
+        [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
+    )
+    cv2.imwrite(
+        f"{path}/notWhite_alpha.png",
+        img_notWhite_alpha,
+        [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
+    )
+
+    # cv2.imshow("image", img)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+
+
+def main2():
+    path = "out/test/single"
+    mkdir(path)
+    for index, img in enumerate(imgArr):
+        cv2.imwrite(
+            f"{path}/test_out_{index}.png", img, [int(cv2.IMWRITE_PNG_COMPRESSION), 0]
+        )
+
+        img_isWhite_alpha = rgb2alpha(img, isWhite)
+        img_notWhite_alpha = rgb2alpha(img, notWhite)
+        cv2.imwrite(
+            f"{path}/isWhite_alpha_{index}.png",
+            img_isWhite_alpha,
+            [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
+        )
+        cv2.imwrite(
+            f"{path}/notWhite_alpha_{index}.png",
+            img_notWhite_alpha,
+            [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
+        )
+
+
+if __name__ == "__main__":
+    main()
+    main2()
