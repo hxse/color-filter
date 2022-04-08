@@ -15,7 +15,7 @@ def getImgArr(path, num, numh):
     num = 4  # 色阶分离个数,色调分离个数
     numh = 2  # imshow每行并列显示个数
     """
-    assert (num % numh == 0, "要整除,imshow才能并排显示,除非用空画布补全")
+    # assert (num % numh == 0, "要整除,imshow才能并排显示,除非用空画布补全")
 
     img = cv2.imread(str(path))
 
@@ -46,23 +46,23 @@ def mkdir(path):
 
 
 def write(img, path, outName, index=""):
-    getIndex = lambda x: "" if x == "" else f"{x}_"
+    getIndex = lambda x: "" if x == "" else f"_{x}"
     # import pdb; pdb.set_trace()
 
     cv2.imwrite(
-        Path(f"{path}/{outName.stem}_out_{getIndex(index)}.png").as_posix(),
+        Path(f"{path}/{outName.stem}_out{getIndex(index)}.png").as_posix(),
         img,
         [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
     )
     img_isWhite_alpha = rgb2alpha(img, isWhite)
     img_notWhite_alpha = rgb2alpha(img, notWhite)
     cv2.imwrite(
-        Path(f"{path}/{outName.stem}_isWhite_alpha_{getIndex(index)}.png").as_posix(),
+        Path(f"{path}/{outName.stem}_isWhite_alpha{getIndex(index)}.png").as_posix(),
         img_isWhite_alpha,
         [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
     )
     cv2.imwrite(
-        Path(f"{path}/{outName.stem}_notWhite_alpha_{getIndex(index)}.png").as_posix(),
+        Path(f"{path}/{outName.stem}_notWhite_alpha{getIndex(index)}.png").as_posix(),
         img_notWhite_alpha,
         [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
     )
@@ -92,25 +92,6 @@ def separate_img(inName, outName="", path="", num=4, numh=2):
     imgArr = getImgArr(inName, num, numh)
     for index, img in enumerate(imgArr):
         write(img, path, outName, index)
-
-
-# def separate_img(name="test_out.png", path="out/test/separate", num=4):
-#     mkdir(f"{path}_{num}")
-#     for index, img in enumerate(imgArr):
-#         cv2.imwrite(f"{path}/{index}_name", img, [int(cv2.IMWRITE_PNG_COMPRESSION), 0])
-
-#         img_isWhite_alpha = rgb2alpha(img, isWhite)
-#         img_notWhite_alpha = rgb2alpha(img, notWhite)
-#         cv2.imwrite(
-#             f"{path}/isWhite_alpha_{index}.png",
-#             img_isWhite_alpha,
-#             [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
-#         )
-#         cv2.imwrite(
-#             f"{path}/notWhite_alpha_{index}.png",
-#             img_notWhite_alpha,
-#             [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
-#         )
 
 
 if __name__ == "__main__":

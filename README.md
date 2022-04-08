@@ -5,3 +5,4 @@
 * `python cf`
 * `python cf.py pi ./test.jpg --num=4`
 * `python cf.py ti ./test.jpg --num=4`
+* `python cf.py ti "dir\test.jpg" --num=6 --path="./"  --outName="hhha"`
