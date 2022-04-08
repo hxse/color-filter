@@ -88,5 +88,18 @@ def main2():
 
 
 if __name__ == "__main__":
+    '''
+    拼接存放,程序运行时间:1163.0017757415771 毫秒
+    单独存放,程序运行时间:1143.8803672790527 毫秒
+    '''
+    import time
+    T1 = time.time()
     main()
+    T2 = time.time()
+    print(f"拼接存放,程序运行时间:{(T2 - T1)*1000} 毫秒")
+
+    T1 = time.time()
     main2()
+    T2 = time.time()
+    print(f"单独存放,程序运行时间:{(T2 - T1)*1000} 毫秒")
+
